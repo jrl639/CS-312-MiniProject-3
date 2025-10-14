@@ -1,0 +1,40 @@
+<%- include('partials/header') %>
+
+<section class="create-post">
+  <h2>New Blog Post</h2>
+  <form action="/add" method="POST">
+    <input type="text" name="author" placeholder="Your name" required>
+    <input type="text" name="title" placeholder="Post title" required>
+    <textarea name="content" placeholder="Write your blog post here" required></textarea>
+    <button type="submit">Publish</button>
+  </form>
+</section>
+
+<hr>
+
+<section class="post-list">
+  <h2>All Posts</h2>
+
+  <% if (posts.length === 0) { %>
+    <p>No posts yet.</p>
+  <% } else { %>
+    <% posts.forEach(post => { %>
+      <div class="post">
+        <h3><%= post.title %></h3>
+        <p><%= post.content %></p>
+        <small>
+          By <strong><%= post.author %></strong> on 
+          <%= post.createdAt.toLocaleString() %>
+        </small>
+        <div class="actions">
+          <form action="/delete/<%= post.id %>" method="POST" style="display:inline;">
+            <button type="submit">🗑️ Delete</button>
+          </form>
+          <a href="/edit/<%= post.id %>">✏️ Edit</a>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>
